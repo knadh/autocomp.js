@@ -4,7 +4,7 @@ A super tiny Javascript autocomplete / autosuggestions library.
 
 Zero dependencies and ~800 bytes Gzipped.
 
-[**View demo**](https://knadh.github.io/autocomp.js/docs/).
+[**View demo**](https://knadh.github.io/autocomp.js/)
 
 ## Usage
 
