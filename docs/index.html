@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>autocomp.js - Super tiny Javascript autocomplete demo</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="description" content="Super tiny Javascript autocomplete, autosuggestion, search-as-you-type library" />
+	<meta name="keywords" content="" />
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+		html, body {
+			font-family: "Inter", "Helvetica Neue", "Museo Sans", sans-serif;
+			font-size: 22px;
+			line-height: 32px;
+			text-align: center;
+			color: #333;
+		}
+		body {
+			padding: 10px;
+		}
+		input {
+			font-family: "Inter", "Helvetica Neue", "Museo Sans", sans-serif;
+
+			padding: 15px;
+			margin: 0 10px;
+			font-size: 2rem;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			box-shadow: 2px 2px 2px #eee;
+			outline: none;
+			max-width: 100%;
+		}
+		a {
+			color: #999;
+		}
+
+		.container {
+			margin-top: 30vh;
+		}
+		.autocomp {
+			background: #f8f8f8;
+			border-radius: 0 0 5px 5px;
+			border: 1px solid #ccc;
+			box-shadow: 2px 2px 2px #eee;
+			text-align: left;
+		}
+		.autocomp-item {
+			padding-bottom: 5px;
+			padding: 15px;
+			cursor: pointer;
+		}
+		.autocomp-item:hover,
+		.autocomp-sel {
+			background: #f1f1f1;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+
+<div class="container">
+	<h1>autocomp.js</h1>
+	<p>A super tiny Javascript autocomplete library.
+		<br />Zero dependencies and ~800 bytes min+gzip.
+		<br />Type to test.
+	</p>
+	
+	<input id="simple" autofocus placeholder="simple strings" />
+	<input id="object" placeholder="objects with HTML results" />
+	
+	<p><small><a href="https://github.com/knadh/autocomp.js">knadh/autocomp.js</a></small></p>
+</div>
+
+<script type="module">
+	import { autocomp } from './autocomp.min.js';
+
+	document.querySelectorAll("input").forEach((el) => { el.value = ""; });
+	const words = ["apple", "banana", "apricot", "atemoya", "avocados", "blueberry", "blackcurrant", "ackee", "cranberry", "cantaloupe", "cherry", "black sapote", "dragonfruit", "dates", "cherimoya", "finger lime", "fig", "coconut", "grapefruit", "gooseberries", "custard apple", "chempedak", "hazelnut", "honeyberries", "dragon fruit", "durian", "horned melon", "hog plum", "egg fruit", "indian fig", "ice apple", "guava", "fuyu persimmon", "jackfruit", "jujube", "honeydew melon", "jenipapo", "kiwi", "kabosu", "lime", "lychee", "longan", "langsat", "mango", "mulberry", "pear", "muskmelon", "passion fruit", "mangosteen", "nectarine", "olive", "oranges", "mouse melon", "papaya", "peach", "rose apple", "noni fruit", "pomegranate", "pineapple", "rambutan", "raspberries", "strawberries", "soursop", "tangerine", "watermelon", "sapota", "star apple"];
+
+
+	// Example 1.
+	// Simple string results.
+	autocomp(document.querySelector("#simple"), {
+		onQuery: async (val) => {
+			// This callback returns an array of search results.
+			// Typically, this will be a server side fetch() request.
+			// Example:
+			// 		const resp = await fetch(`/search?q=${query}`);
+			// 		const res = await response.json();  
+			//		return res;
+
+			const q = val.trim();
+			return words.filter(s => s.startsWith(q)).slice(0, 10);
+		},
+
+		onSelect: (val) => {
+			document.querySelector("h1").innerText = val;
+
+			// Whatever is returned here is set in the input box.
+			return val;
+		}
+	});
+
+
+	// Example 2.
+	// Object results and HTML rendering.
+	autocomp(document.querySelector("#object"), {
+		onQuery: async (val) => {
+			const q = val.trim();
+			const out = words.filter(s => s.startsWith(q)).slice(0, 10);
+
+			const colors = ['#DAA520', '#228B22', '#8B4513', '#D2691E', '#BDB76B', '#FFD700', '#808000', '#FF4500', '#B8860B', '#CD853F'];
+			const emojis = ['😀', '😍', '🐱', '🌺', '🚀', '🍕', '🌟', '🎉', '🎨', '🎵'];
+
+			// Results are objects:
+			// [{fruit: "apple", color: "..", emoji: ".."} ...]
+			return out.map(w => ({
+				fruit: w,
+				color: colors[Math.floor(Math.random() * colors.length)],
+				emoji: emojis[Math.floor(Math.random() * emojis.length)],
+			}))
+		},
+
+		onSelect: (o) => {
+			document.querySelector("h1").innerHTML = `<span style="color: ${o.color}">${o.emoji} ${o.fruit}</span>`;
+			document.querySelector("#object").value = o.fruit;
+
+			// Whatever is returned here is set in the input box.
+			return o.fruit;
+		},
+
+		// If this callback is set, every search item (string or object) is passed to this function and its return
+		// value (DOMNode), is appended to the results box.
+		onRender: (o) => {
+			const dot = document.createElement("span");
+			dot.style = `width: 15px; height: 15px; border-radius: 100%; display: inline-block; margin-right: 10px; float: right; background: ${o.color}`;
+
+			const d = document.createElement("span");
+		    d.appendChild(dot);
+		    d.appendChild(document.createTextNode(o.emoji + " "));
+		    d.appendChild(document.createTextNode(o.fruit));
+
+		    return d;
+		}
+	});
+</script>
+</body>
+</html>

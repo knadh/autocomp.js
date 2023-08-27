@@ -1,0 +1,32 @@
+{
+  "name": "@knadh/autocomp",
+  "version": "0.1.0",
+  "description": "A tiny, zero-dependency, autocomplete / autosuggestion library.",
+  "main": "autocomp.js",
+  "files": [
+    "autocomp.js"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knadh/autocomp.js.git"
+  },
+  "keywords": [
+    "autocomplete",
+    "autosuggest",
+    "suggestions",
+    "search",
+    "typeahead"
+  ],
+  "author": "Kailash Nadh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/knadh/autocomp.js/issues"
+  },
+  "homepage": "https://github.com/knadh/autocomp.js#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}
