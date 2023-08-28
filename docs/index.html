@@ -75,7 +75,7 @@
 		<br />Type below to test.
 	</p>
 	
-	<input id="simple" autofocus placeholder="simple strings" />
+	<input id="simple" autofocus placeholder="simple string results" />
 	<input id="object" placeholder="objects with HTML results" />
 	
 	<p><small><a href="https://github.com/knadh/autocomp.js">knadh/autocomp.js</a></small></p>
@@ -101,7 +101,7 @@
 			// 		const res = await response.json();  
 			//		return res;
 
-			const q = val.trim();
+			const q = val.trim().toLowerCase();
 			return WORDS.filter(s => s.startsWith(q)).slice(0, 10);
 		},
 
@@ -118,7 +118,7 @@
 	// Object results and HTML rendering.
 	autocomp(document.querySelector("#object"), {
 		onQuery: async (val) => {
-			const q = val.trim();
+			const q = val.trim().toLowerCase();
 			const out = WORDS.filter(s => s.startsWith(q)).slice(0, 10);
 
 			// Results are objects:
