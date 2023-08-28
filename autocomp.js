@@ -10,7 +10,7 @@ export function autocomp(el, options = {}) {
 	el.autocomplete = "off";
 
 	// Attach all the events required for the interactions in one go.
-	["keyup", "keydown", "blur", "focus"].forEach(k => el.addEventListener(k, handleEvent));
+	["input", "keydown", "blur", "focus"].forEach(k => el.addEventListener(k, handleEvent));
 
 	function handleEvent(e) {
 		if (e.type === "keydown" && handleKeydown(e)) {
