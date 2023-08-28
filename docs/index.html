@@ -70,12 +70,11 @@
 <body>
 
 <div class="container">
-	<h2>autocomp.js</h2>
+	<h2 id="title">autocomp.js</h2>
 	<p>A super tiny Javascript autocomplete library.
 		<br />Zero dependencies and ~800 bytes (min+gzip).
 		<br />Type below to test.
 	</p>
-	
 	<input id="simple" autofocus placeholder="simple string results" />
 	<input id="object" placeholder="objects with HTML results" />
 	
@@ -107,7 +106,7 @@
 		},
 
 		onSelect: (val) => {
-			document.querySelector("h1").innerText = val;
+			document.querySelector("#title").innerText = val;
 
 			// Whatever is returned here is set in the input box.
 			return val;
@@ -132,7 +131,7 @@
 		},
 
 		onSelect: (o) => {
-			document.querySelector("h1").innerHTML = `<span style="color: ${o.color}">${o.emoji} ${o.fruit}</span>`;
+			document.querySelector("#title").innerHTML = `<span style="color: ${o.color}">${o.emoji} ${o.fruit}</span>`;
 			document.querySelector("#object").value = o.fruit;
 
 			// Whatever is returned here is set in the input box.
