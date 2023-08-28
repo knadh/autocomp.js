@@ -4,7 +4,8 @@ A super tiny Javascript autocomplete / autosuggestion library. Zero dependencies
 
 [**View demo**](https://knadh.github.io/autocomp.js)
 
-[![demo](https://github.com/knadh/autocomp.js/assets/547147/c241f264-3a8e-4c2c-a1a4-4a01d077b09f)](https://knadh.github.io/autocomp.js)
+[![demo](https://github.com/knadh/autocomp.js/assets/547147/8bfaa03c-46a0-4e4e-a127-914120265009)](https://knadh.github.io/autocomp.js)
+
 
 ## Usage
 
