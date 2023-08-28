@@ -81,7 +81,8 @@ export function autocomp(el, options = {}) {
 		Object.assign(box.style, {
 			width: window.getComputedStyle(el).width,
 			position: "absolute",
-			left: `${el.offsetLeft}px`
+			left: `${el.offsetLeft}px`,
+			top: `${el.offsetTop + el.offsetHeight}px`
 		});
 
 		box.classList.add("autocomp");
