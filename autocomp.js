@@ -18,7 +18,6 @@ export function autocomp(el, options = {}) {
 		};
 
 		if (e.type === "blur") {
-			setTimeout(destroy, 100);
 			return;
 		}
 
@@ -102,7 +101,10 @@ export function autocomp(el, options = {}) {
 				div.classList.add("autocomp-sel");
 			}
 
-			div.addEventListener("click", () => select(idx));
+			div.addEventListener("click", () => {
+				select(idx);
+				destroy();
+			});
 			box.appendChild(div);
 		});
 	}
