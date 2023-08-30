@@ -1,6 +1,6 @@
 {
   "name": "@knadh/autocomp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A tiny, zero-dependency, autocomplete / autosuggestion library.",
   "main": "autocomp.js",
   "files": [
