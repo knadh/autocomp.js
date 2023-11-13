@@ -1,16 +1,17 @@
-const DEFAULTS = {
-	onQuery: null, onNavigate: null, onSelect: null, onRender: null, debounce: 100
-};
 
 export function autocomp(el, options = {}) {
-	const opt = { ...DEFAULTS, ...options };
+	const defaults = {
+		onQuery: null, onNavigate: null, onSelect: null, onRender: null, debounce: 100
+	};
+
+	const opt = { ...defaults, ...options };
 	let box, cur = 0, items = [], val, req;
 
 	// Disable browser's default autocomplete behaviour on the input.
 	el.autocomplete = "off";
 
 	// Attach all the events required for the interactions in one go.
-	["input", "keydown", "blur", "focus"].forEach(k => el.addEventListener(k, handleEvent));
+	["input", "keydown", "blur"].forEach(k => el.addEventListener(k, handleEvent));
 
 	function handleEvent(e) {
 		if (e.type === "keydown" && handleKeydown(e)) {
@@ -28,8 +29,8 @@ export function autocomp(el, options = {}) {
 			return;
 		}
 
-		if (e.target.value === val) {
-			return
+		if (e.target.value === val && e.keyCode !== 40) {
+			return;
 		};
 
 		val = e.target.value;
@@ -42,12 +43,15 @@ export function autocomp(el, options = {}) {
 
 	function handleKeydown(e) {
 		if (!box) {
-			return true
-		};
+			if (e.keyCode === 40) {
+				return;
+			}
 
+			return true;
+		};
 		switch (e.keyCode) {
-			case 38: return navigate(-1, e); // Down arrow.
-			case 40: return navigate(1, e); // Up arrow
+			case 38: return navigate(-1, e); // Up arrow.
+			case 40: return navigate(1, e); // Down arrow
 			case 13: // Enter
 				select(cur);
 				destroy();
@@ -60,8 +64,8 @@ export function autocomp(el, options = {}) {
 
 	async function query() {
 		if (!val) {
-			return
-		};
+			return;
+		}
 		
 		items = await opt.onQuery(val);
 		if (!items.length) {
