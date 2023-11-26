@@ -1,11 +1,10 @@
-
 export function autocomp(el, options = {}) {
 	const defaults = {
-		onQuery: null, onNavigate: null, onSelect: null, onRender: null, debounce: 100
+		onQuery: null, onNavigate: null, onSelect: null, onRender: null, debounce: 100, autoSelect: true
 	};
 
 	const opt = { ...defaults, ...options };
-	let box, cur = 0, items = [], val, req;
+	let box, cur = opt.autoSelect ? 0 : -1, items = [], val, req;
 
 	// Disable browser's default autocomplete behaviour on the input.
 	el.autocomplete = "off";
@@ -134,7 +133,7 @@ export function autocomp(el, options = {}) {
 
 	function destroy() {
 		items = [];
-		cur = 0;
+		cur = opt.autoSelect ? 0 : -1;
 		if (box) {
 			box.remove();
 			box = null;
