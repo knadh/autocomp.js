@@ -13,7 +13,7 @@ export function autocomp(el, options = {}) {
 	["input", "keydown", "blur"].forEach(k => el.addEventListener(k, handleEvent));
 
 	function handleEvent(e) {
-		if (e.type === "keydown" && handleKeydown(e)) {
+		if (e.type === "keydown" && !handleKeydown(e)) {
 			return;
 		};
 
@@ -28,7 +28,7 @@ export function autocomp(el, options = {}) {
 			return;
 		}
 
-		if (e.target.value === val && e.keyCode !== 40) {
+		if (e.target.value === val && box) {
 			return;
 		};
 
@@ -42,12 +42,9 @@ export function autocomp(el, options = {}) {
 
 	function handleKeydown(e) {
 		if (!box) {
-			if (e.keyCode === 40) {
-				return;
-			}
+			return (e.keyCode === 38 || e.keyCode === 40) ? true : false;
+		}
 
-			return true;
-		};
 		switch (e.keyCode) {
 			case 38: return navigate(-1, e); // Up arrow.
 			case 40: return navigate(1, e); // Down arrow
