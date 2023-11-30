@@ -48,6 +48,11 @@ export function autocomp(el, options = {}) {
 		switch (e.keyCode) {
 			case 38: return navigate(-1, e); // Up arrow.
 			case 40: return navigate(1, e); // Down arrow
+			case 9: // Tab
+				e.preventDefault();
+				select(cur);
+				destroy();
+				return;
 			case 13: // Enter
 				select(cur);
 				destroy();
