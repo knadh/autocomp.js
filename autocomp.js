@@ -1,9 +1,8 @@
 export function autocomp(el, options = {}) {
-	const defaults = {
-		onQuery: null, onNavigate: null, onSelect: null, onRender: null, debounce: 100, autoSelect: true
+	const opt = {
+		onQuery: null, onNavigate: null, onSelect: null, onRender: null, debounce: 100, autoSelect: true,...options
 	};
 
-	const opt = { ...defaults, ...options };
 	let box, cur = opt.autoSelect ? 0 : -1, items = [], val, req;
 
 	// Disable browser's default autocomplete behaviour on the input.
@@ -15,24 +14,23 @@ export function autocomp(el, options = {}) {
 	function handleEvent(e) {
 		if (e.type === "keydown" && !handleKeydown(e)) {
 			return;
-		};
-
-		if (e.type === "blur") {
-			destroy();
-			return;
 		}
 
-		if (e.target.value === "") {
+		if (e.type === "blur") {
+			return destroy();
+		}
+
+		const newVal = e.target.value;
+		if (!newVal) {
 			destroy();
 			val = null;
 			return;
 		}
 
-		if (e.target.value === val && box) {
+		if (newVal === val && box) {
 			return;
-		};
-
-		val = e.target.value;
+		}
+		val = newVal;
 
 		// Clear (debounce) any existing pending requests and queue
 		// the next search request.
@@ -42,23 +40,20 @@ export function autocomp(el, options = {}) {
 
 	function handleKeydown(e) {
 		if (!box) {
-			return (e.keyCode === 38 || e.keyCode === 40) ? true : false;
+			return e.keyCode === 38 || e.keyCode === 40
 		}
 
 		switch (e.keyCode) {
 			case 38: return navigate(-1, e); // Up arrow.
 			case 40: return navigate(1, e); // Down arrow
 			case 9: // Tab
+			case 13: // Enter
 				e.preventDefault();
 				select(cur);
 				destroy();
 				return;
-			case 13: // Enter
-				select(cur);
-				destroy();
-				return;
 			case 27: // Escape.
-				destroy(); 
+				destroy();
 				return;
 		}
 	}
@@ -67,11 +62,10 @@ export function autocomp(el, options = {}) {
 		if (!val) {
 			return;
 		}
-		
+
 		items = await opt.onQuery(val);
 		if (!items.length) {
-			destroy();
-			return;
+			return destroy();
 		}
 
 		if (!box) {
@@ -96,7 +90,6 @@ export function autocomp(el, options = {}) {
 
 	function renderResults() {
 		box.innerHTML = "";
-
 		items.forEach((item, idx) => {
 			const div = document.createElement("div");
 			div.classList.add("autocomp-item");
@@ -117,7 +110,7 @@ export function autocomp(el, options = {}) {
 
 		// Remove the previous item's highlight;
 		const prev = box.querySelector(`:nth-child(${cur + 1})`);
-		prev && prev.classList.remove("autocomp-sel");
+		prev?.classList.remove("autocomp-sel");
 
 		// Increment the cursor and highlight the next item, cycled between [0, n].
 		cur = (cur + direction + items.length) % items.length;
