@@ -23,7 +23,7 @@ autocomp(document.querySelector("#q"), {
 		return ["results", "here"];
 	},
 
-	onSelect: (val) => {
+	onSelect: (val, items) => {
 		alert(val);
 		return val;
 	}

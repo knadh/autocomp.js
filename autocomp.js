@@ -122,7 +122,7 @@ export function autocomp(el, options = {}) {
 			return;
 		}
 
-		val = opt.onSelect(items[idx]);
+		val = opt.onSelect(items[idx], items);
 		el.value = val || items[idx];
 	}
 
