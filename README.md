@@ -30,9 +30,9 @@ autocomp(document.querySelector("#q"), {
 });
 ```
 
-Check the [demo source](https://github.com/knadh/autocomp.js/blob/master/docs/index.html) to see advanced usage and basic CSS styles.
+Check the [demo source](https://github.com/knadh/autocomp.js/blob/master/index.html) to see advanced usage and basic CSS styles.
 
 ### ES6 module
-Check the [demo source](https://github.com/knadh/autocomp.js/blob/master/docs/index.html) to use the lib in `<script>` directly on an HTML page.
+Check the [demo source](https://github.com/knadh/autocomp.js/blob/master/index.html) to use the lib in `<script>` directly on an HTML page.
 
 Licensed under the MIT License.
